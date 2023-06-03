@@ -1,9 +1,9 @@
 <template>
-<div class="header">
-  <a-button type="primary" size="small" class="btn">新增数据</a-button>
-  <filter-input @onChange="onChange"></filter-input>
-</div>
-   <a-table :columns="columns" :data-source="data" :pagination="pagination">
+  <div class="header">
+    <a-button type="primary" size="small" class="btn">新增数据</a-button>
+    <filter-input @onChange="onChange"></filter-input>
+  </div>
+  <a-table :columns="columns" :data-source="data" :pagination="pagination">
     <template #headerCell="{ column }">
       <template v-if="column.key === 'name'">
         <span>
@@ -31,10 +31,10 @@
         </span>
       </template>
       <template v-else-if="column.key === 'illustrate'">
-       <span>
+        <span>
           <a>
-          {{ record.illustrate }}
-        </a>
+            {{ record.illustrate }}
+          </a>
         </span>
       </template>
       <template v-else-if="column.key === 'action'">
@@ -50,12 +50,12 @@
                   <a>
                     <span class="edit-icon icon-icon-line-edit"></span>
                     <span>详情</span>
-                    </a>
+                  </a>
                 </a-menu-item>
                 <a-menu-item>
                   <a>
                     <span class="del-icon icon-icon-line-delete"></span>
-                   <span>删除</span>
+                    <span>删除</span>
                   </a>
                 </a-menu-item>
               </a-menu>
@@ -65,26 +65,30 @@
       </template>
     </template>
   </a-table>
-  <a-pagination
-    class="pagination"
-    v-model:current="current"
-    v-model:page-size="pageSize"
-    :page-size-options="pageSizeOptions"
-    :total="total"
-    show-size-changer
-    @showSizeChange="onShowSizeChange"
-    size="small"
-  >
-    <template #buildOptionText="props">
-      <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
-      <span v-else>全部</span>
-    </template>
-  </a-pagination>
+  <div class="footer">
+    <a-button type="primary" size="small" @click="ReturnTable">导出数据</a-button>
+    <a-pagination
+      class="pagination"
+      v-model:current="current"
+      v-model:page-size="pageSize"
+      :page-size-options="pageSizeOptions"
+      :total="total"
+      show-size-changer
+      @showSizeChange="onShowSizeChange"
+      size="small"
+    >
+      <template #buildOptionText="props">
+        <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
+        <span v-else>全部</span>
+      </template>
+    </a-pagination>
+  </div>
 </template>
 
 <script setup lang="ts">
 import filterInput from "../../../components/filterInput/index.vue";
 import { ref } from "vue"
+import { onReturn } from "../../../util/importXlsx.js"
 const pagination = ref(false)
 const pageSizeOptions = ref(['10', '20', '30', '40', '50']);
 const current = ref(1);
@@ -155,6 +159,9 @@ const data = ref ([
 
   },
 ]);
+const ReturnTable = () => {
+  onReturn(data.value)
+}
 const onChange = (value)=> {
   data.value = data.value.filter(item=> item.name === value)
   console.log(value, 77);
@@ -179,9 +186,9 @@ const onChange = (value)=> {
 .edit {
   margin-right: 15px;
 }
-.pagination {
+.footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 20px;
 }
 </style>

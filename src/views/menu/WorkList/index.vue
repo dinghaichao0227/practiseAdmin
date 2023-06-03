@@ -77,26 +77,30 @@
       </template>
     </template>
   </a-table>
-  <a-pagination
-    class="pagination"
-    v-model:current="current"
-    v-model:page-size="pageSize"
-    :page-size-options="pageSizeOptions"
-    :total="total"
-    show-size-changer
-    @showSizeChange="onShowSizeChange"
-    size="small"
-  >
-    <template #buildOptionText="props">
-      <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
-      <span v-else>全部</span>
-    </template>
-  </a-pagination>
+  <div class="footer">
+    <a-button type="primary" size="small" @click="ReturnTable">导出数据</a-button>
+    <a-pagination
+      class="pagination"
+      v-model:current="current"
+      v-model:page-size="pageSize"
+      :page-size-options="pageSizeOptions"
+      :total="total"
+      show-size-changer
+      @showSizeChange="onShowSizeChange"
+      size="small"
+    >
+      <template #buildOptionText="props">
+        <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
+        <span v-else>全部</span>
+      </template>
+    </a-pagination>
+  </div>
 </template>
 
 <script setup lang="ts">
 import filterInput from "../../../components/filterInput/index.vue";
 import { ref } from "vue"
+import { onReturn } from "../../../util/importXlsx.js"
 const pagination = ref(false)
 const pageSizeOptions = ref(['10', '20', '30', '40', '50']);
 const current = ref(1);
@@ -148,7 +152,6 @@ const onShowSizeChange = () => {
     align: 'center',
   },
 ]);
-
 const data = ref ([
   {
     key: '1',
@@ -182,6 +185,9 @@ const data = ref ([
 
   },
 ]);
+const ReturnTable = () => {
+  onReturn(data.value)
+}
 const onChange = (value)=> {
   data.value = data.value.filter(item=> item.name === value)
   console.log(value, 77);
@@ -206,9 +212,9 @@ const onChange = (value)=> {
 .edit {
   margin-right: 15px;
 }
-.pagination {
+.footer {
   display: flex;
-  justify-content: flex-end;
   margin-top: 20px;
+  justify-content: space-between;
 }
 </style>
