@@ -1,0 +1,25 @@
+.ant-menu {
+  background: none !important;
+}
+.ant-col.ant-col-8.ant-form-item-label {
+  margin-left:-60px;
+}
+.ant-card-head-title {
+  margin-left: 30px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.ant-menu-item {
+  padding-left: 8px !important;
+  &:hover {
+    background-color: #444445;
+    color: #cdd1d8
+  }
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected  {
+  background-color: #444445 !important;
+}
+.ant-menu-item::after {
+  border-right: 3px solid #6e6e6f !important;
+
+}
