@@ -32,8 +32,8 @@
         </span>
       </template>
       <template v-else-if="column.key === 'action'">
-        <span class="action">
-          <a class="edit">编辑</a>
+        <span class="action" >
+          <a class="edit" @click="onEdit(scoped)">编辑</a>
           <a-dropdown>
             <a>
               <span class="more-icon icon-icon-line-more"></span>
@@ -83,7 +83,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import filterInput from "../../../components/filterInput/index.vue";
-import CreateForm from "./component/CreateForm.vue"
+import CreateForm from "./component/CreateAndEditForm.vue"
 import { onReturn } from "../../../util/importXlsx.js"
 const pagination = ref(false)
 const pageSizeOptions = ref(['10', '20', '30', '40', '50']);
@@ -128,6 +128,9 @@ const onShowSizeChange = () => {
   },
 ]);
 
+const onEdit = () => {
+  isVisible.value = true
+}
 const data = ref ([
   {
     key: '1',

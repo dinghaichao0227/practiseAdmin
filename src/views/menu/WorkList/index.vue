@@ -1,6 +1,6 @@
 <template>
 <div class="header">
-  <a-button type="primary" size="small" class="btn">新增数据</a-button>
+  <a-button type="primary" size="small" class="btn" @click="onAdd">新增数据</a-button>
   <filter-input @onChange="onChange"></filter-input>
 </div>
    <a-table :columns="columns" :data-source="data" :pagination="pagination">
@@ -51,7 +51,7 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span class="action">
-          <a class="edit">编辑</a>
+          <a class="edit" @click="onEdit">编辑</a>
           <a-dropdown>
             <a>
               <span class="more-icon icon-icon-line-more"></span>
@@ -95,17 +95,22 @@
       </template>
     </a-pagination>
   </div>
+  <create-form :is-visible="isVisible" @onChange="onChangeCreate"/>
+
 </template>
 
 <script setup lang="ts">
 import filterInput from "../../../components/filterInput/index.vue";
 import { ref } from "vue"
+import CreateForm from "./component/CreateAndEditForm.vue"
 import { onReturn } from "../../../util/importXlsx.js"
 const pagination = ref(false)
 const pageSizeOptions = ref(['10', '20', '30', '40', '50']);
 const current = ref(1);
 const pageSizeRef = ref(10);
 const total = ref(50);
+const isVisible = ref(false)
+
 const onShowSizeChange = () => {
   console.log(current, pageSize);
   pageSizeRef.value = pageSize;
@@ -185,12 +190,22 @@ const data = ref ([
 
   },
 ]);
+const onAdd = () => {
+  isVisible.value = true
+
+}
+const onEdit = () => {
+  isVisible.value = true
+}
 const ReturnTable = () => {
   onReturn(data.value)
 }
 const onChange = (value)=> {
   data.value = data.value.filter(item=> item.name === value)
   console.log(value, 77);
+}
+const onChangeCreate = (value)=> {
+  isVisible.value = value
 }
 
 </script>
